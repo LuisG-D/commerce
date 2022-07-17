@@ -18,9 +18,9 @@ spring:
     show-sql: true
 
   mail:
-    host: host
-    port: port
-    username: agricommerce
+    host: smtp.gmail.com
+    port: 587
+    username: agricocommerce
     password: administrador
 
     properties:
