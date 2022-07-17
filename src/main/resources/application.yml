@@ -18,8 +18,8 @@ spring:
     show-sql: true
 
   mail:
-    host: smt.gmail.com
-    port: 587
+    host: host
+    port: port
     username: agricocommerce
     password: jcemdwbymjiekhfh
 
