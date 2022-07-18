@@ -23,7 +23,11 @@ public class EmailValidator implements Predicate<String> {
             return true;
         }else{
 
-            throw new IllegalStateException("Invalid email: " + email);
+            try {
+                throw new Exception("Invalid email: " + email);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
         }
 
