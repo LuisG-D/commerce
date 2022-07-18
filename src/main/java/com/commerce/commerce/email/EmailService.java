@@ -1,6 +1,7 @@
 package com.commerce.commerce.email;
 
 
+import com.commerce.commerce.exception.FailedSendEmailException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class EmailService implements EmailSender{
 
             }catch (MessagingException e){
                 LOGGER.error("Failed to send email",  e);
-                throw new IllegalStateException("failed to send email");
+                throw new FailedSendEmailException("failed to send email");
             }
     }
 }
