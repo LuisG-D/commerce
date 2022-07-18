@@ -5,6 +5,7 @@ import com.commerce.commerce.appuser.AppUser;
 import com.commerce.commerce.appuser.AppUserRole;
 import com.commerce.commerce.appuser.AppUserService;
 import com.commerce.commerce.email.EmailSender;
+import com.commerce.commerce.exception.EmailAlreadyExistsException;
 import com.commerce.commerce.registration.token.ConfirmationToken;
 import com.commerce.commerce.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class RegistrationService {
     boolean isValidEmail = emailValidator.
             test(request.getEmail());
     if(!isValidEmail) {
-        throw new IllegalStateException("Invalid email");
+        throw new EmailAlreadyExistsException("Invalid email");
     }
 
        String token = appUserService.singUpUser(

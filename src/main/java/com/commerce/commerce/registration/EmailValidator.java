@@ -26,10 +26,10 @@ public class EmailValidator implements Predicate<String> {
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public boolean test(String email) {
-        if (!email.contains("@") || !email.contains("."))
-            throw new EmailAlreadyExistsException("Invalid email address");
+        if (email.contains("@") && email.contains(".")){
+            return true;}
 
 
-        return false;
+        throw new EmailAlreadyExistsException("Invalid email address");
     }
 }
