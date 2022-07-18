@@ -6,8 +6,7 @@ import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Service;
 
 
-
-
+import javax.mail.internet.AddressException;
 import javax.validation.constraints.NotEmpty;
 import java.util.function.Predicate;
 
@@ -22,10 +21,9 @@ public class EmailValidator implements Predicate<String> {
         if(email.contains("@") && email.contains(".")){
             return true;
         }else{
-
             try {
-                throw new Exception("Invalid email: " + email);
-            } catch (Exception e) {
+                throw new AddressException("Invalid email: " + email);
+            } catch (AddressException e) {
                 throw new RuntimeException(e);
             }
 
