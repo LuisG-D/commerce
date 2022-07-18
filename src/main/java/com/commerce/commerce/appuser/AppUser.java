@@ -9,8 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+
 import java.util.Collection;
 import java.util.Collections;
 @Getter
@@ -34,8 +33,7 @@ public class AppUser implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
+
     private String email;
     private String password;
 

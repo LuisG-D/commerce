@@ -11,8 +11,7 @@ import javax.validation.constraints.Pattern;
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping(path = "api/v1/registration")
 @AllArgsConstructor
-@Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-        flags = Pattern.Flag.CASE_INSENSITIVE)
+
 public class RegistrationController {
 
         private RegistrationService registrationService;
