@@ -2,6 +2,7 @@ package com.commerce.commerce.registration;
 
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Service;
 
 
@@ -18,6 +19,16 @@ public class EmailValidator implements Predicate<String> {
 
     @Override
     public boolean test(String email) {
-        return email.contains("@") || email.contains(".");
+        if(email.contains("@") && email.contains(".")){
+            return true;
+        }else{
+
+            throw new IllegalStateException("Invalid email: " + email);
+
+        }
+
+
+
+
     }
 }

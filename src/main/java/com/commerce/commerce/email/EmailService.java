@@ -16,8 +16,7 @@ import javax.validation.constraints.Pattern;
 
 @Service
 @AllArgsConstructor
-        @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-                flags = Pattern.Flag.CASE_INSENSITIVE)
+
 public class EmailService implements EmailSender{
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
@@ -32,7 +31,7 @@ public class EmailService implements EmailSender{
                 helper.setText(email, true);
                 helper.setTo(to);
                 helper.setSubject("Confirm your email");
-                helper.setFrom("hello@commerce.com");
+                helper.setFrom("agricocommerce@gmail.com");
                 mailSender.send(mimeMessage);
 
             }catch (MessagingException e){
