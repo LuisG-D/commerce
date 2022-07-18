@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Service
 @AllArgsConstructor
-
+        @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+                flags = Pattern.Flag.CASE_INSENSITIVE)
 public class EmailService implements EmailSender{
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
