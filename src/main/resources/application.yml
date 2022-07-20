@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     password: admin
-    url: jdbc:postgresql://ec2-54-228-32-29.eu-west-1.compute.amazonaws.com/registration
+    url: jdbc:postgresql://localhost:5432/registration
     username: postgres
     initialization-mode: always
 

@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and().csrf().disable()
+                .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/api/v*/registration/**")
                     .permitAll()
@@ -50,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
+
+
 
 
     }
@@ -74,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:4200", "*"));//REEMPLAZAR * POR DOMAIN DEL FRONT
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:8080", "*"));//REEMPLAZAR * POR DOMAIN DEL FRONT
         configuration.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
         configuration.setAllowedHeaders(List.of("Access-Control-Allow-Origin", "X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
         configuration.setAllowCredentials(true);
