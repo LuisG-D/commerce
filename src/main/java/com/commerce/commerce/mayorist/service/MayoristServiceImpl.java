@@ -5,12 +5,13 @@ import com.commerce.commerce.mayorist.repository.MayoristRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class MayoristServiceImpl implements MayoristService{
 
     private final Logger log = LoggerFactory.getLogger(MayoristServiceImpl.class);
@@ -65,10 +66,10 @@ public class MayoristServiceImpl implements MayoristService{
     }
 
     @Override
-    public List<Mayorist> findByCountryAndProductType(String country, String productType) {
-        if(!StringUtils.hasLength(country) || !StringUtils.hasLength(productType))
+    public List<Mayorist> findByCountry(String country) {
+        if(!StringUtils.hasLength(country))
             return new ArrayList<>();
-        return this.repository.findByCountryAndProductType(country, productType);
+        return this.repository.findByCountry(country);
     }
 
     private boolean validateMayorist(Mayorist mayorist){

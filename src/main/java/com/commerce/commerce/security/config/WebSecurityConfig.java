@@ -30,10 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors().and().csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/api/v*/registration/**")
                     .permitAll()
+                    .antMatchers("/api/v*/mayorists/**")
+                     .permitAll()
+                     .antMatchers("/mayoristfilter")
+                     .permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
@@ -46,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
+
 
     }
 

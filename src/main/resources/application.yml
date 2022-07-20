@@ -7,7 +7,9 @@ spring:
   datasource:
     password: admin
     url: jdbc:postgresql://ec2-54-228-32-29.eu-west-1.compute.amazonaws.com/registration
-    username: postgresql
+    username: postgres
+    initialization-mode: always
+
   jpa:
     hibernate:
       ddl-auto: create-drop

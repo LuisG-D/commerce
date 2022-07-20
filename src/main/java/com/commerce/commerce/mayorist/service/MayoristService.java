@@ -1,10 +1,12 @@
 package com.commerce.commerce.mayorist.service;
 
 import com.commerce.commerce.mayorist.domain.Mayorist;
+import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+
 
 public interface MayoristService {
     //Spring repository methods
@@ -20,5 +22,5 @@ public interface MayoristService {
 
     //Custom Methods
 
-    List<Mayorist> findByCountryAndProductType(String country, String productType);
+    List<Mayorist> findByCountry(String country);
 }

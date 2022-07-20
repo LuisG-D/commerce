@@ -22,13 +22,13 @@ public class AppUser implements UserDetails {
 
     @SequenceGenerator(
             name = "student_sequence",
-            sequenceName = "student_sequence",
+            sequenceName = "STUDENT_SEQUENCE",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            strategy = GenerationType.IDENTITY
+
     )
     private Long id;
     private String firstName;

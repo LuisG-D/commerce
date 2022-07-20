@@ -6,6 +6,7 @@ import com.commerce.commerce.mayorist.repository.MayoristRepository;
 import com.commerce.commerce.mayorist.service.MayoristService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v2")
 public class MayoristController {
     private final Logger log = LoggerFactory.getLogger(MayoristController.class);
 
@@ -42,23 +43,9 @@ public class MayoristController {
     }
     //Listamos a los mayoritas
     @GetMapping("/mayorists")
-    public ResponseEntity<List<Mayorist>> findAll(@RequestParam(required = false)String country,String sector,String productType){
-    try{
-        List<Mayorist> mayorists = new ArrayList<Mayorist>();
-            if(country == null)
-                repository.findAll().forEach(mayorists::add);
-            else if(sector ==null)
-                repository.findByCountry(sector).forEach(mayorists::add);
-            else if(productType == null){
-                repository.findByProductType(productType).forEach(mayorists::add);
-            }
-            if(mayorists.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(mayorists, HttpStatus.OK);
-    }catch (Exception e){
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
+    public List<Mayorist> findAll(){
+    return this.mayoristService.findAll();
         }
 
     //Crear un mayorista
@@ -104,10 +91,10 @@ public class MayoristController {
     }
 
 /** ====================TODO CUSTOM CRUD METHODS ==========**/
-@GetMapping("/mayorists?country/{country}&productType/{productType}")
-    public List<Mayorist>findByCountryAndProductType(@PathVariable String country,
-                                                     @PathVariable String productType){
-    return this.mayoristService.findByCountryAndProductType(country,productType);
+@Query("SELECT * FROM mayorist t WHERE LOWER(t.country) LIKE LOWER(CONCAT('%', ?1,'%'))")
+@GetMapping("/mayoristfilter")
+    public List<Mayorist>findByCountry(@PathVariable String country){
+    return this.mayoristService.findByCountry(country);
 }
 
 

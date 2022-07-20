@@ -25,7 +25,7 @@ public class Mayorist {
     private String productType;
     private Boolean available;
     private String sector;
-
+    private String country;
     public Mayorist() {}
 
 }
