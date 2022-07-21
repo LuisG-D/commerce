@@ -1,4 +1,5 @@
 server:
+  port: 8081
   error:
     include-message: always
     include-binding-errors: always
@@ -6,8 +7,8 @@ server:
 spring:
   datasource:
     password: admin
-    url: jdbc:postgresql://ec2-54-228-32-29.eu-west-1.compute.amazonaws.com/registration
-    username: postgresql
+    url: jdbc:postgresql://localhost:5432/registration
+    username: postgres
   jpa:
     hibernate:
       ddl-auto: create-drop

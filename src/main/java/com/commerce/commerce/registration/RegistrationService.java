@@ -31,8 +31,7 @@ public class RegistrationService {
 
        String token = appUserService.singUpUser(
                 new AppUser(
-                        request.getFirstName(),
-                        request.getLastName(),
+                        request.getUsername(),
                         request.getEmail(),
                         request.getPassword(),
                         AppUserRole.AGRICULTOR
@@ -43,7 +42,7 @@ public class RegistrationService {
         String link = "https://agri-commerce.herokuapp.com/api/v1/registration/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getFirstName(), link));
+                buildEmail(request.getUsername(), link));
 
         return token;
     }
