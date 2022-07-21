@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "api/v1")
 
 
-public class AuthController {
+public class RegistrationController {
 
         private final AuthenticationManager authManager;
 
@@ -25,23 +25,16 @@ public class AuthController {
         private final AppUserRepository appUserRepository;
     private final ConfirmationTokenRepository confirmationToken;
 
-    public AuthController(AuthenticationManager authManager,
-                          RegistrationService registrationService,
-                          AppUserRepository appUserRepository,
-                          ConfirmationTokenRepository confirmationToken) {
+    public RegistrationController(AuthenticationManager authManager,
+                                  RegistrationService registrationService,
+                                  AppUserRepository appUserRepository,
+                                  ConfirmationTokenRepository confirmationToken) {
         this.authManager = authManager;
         this.registrationService = registrationService;
         this.appUserRepository = appUserRepository;
         this.confirmationToken = confirmationToken;
     }
 
-
-    @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest) {
-
-
-        return "Login";
-    }
 
 
     @PostMapping ("/registration")

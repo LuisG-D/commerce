@@ -27,28 +27,18 @@ import java.util.List;
 @AllArgsConstructor
 @EnableWebSecurity
 
-public class WebSecurityConfig implements WebMvcConfigurer {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/v*/registration/**")
-                .permitAll()
+
+                        .antMatchers("/api/v*/registration/**").permitAll()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
-                .anyRequest().authenticated()
-                .anyRequest()
-                .authenticated().and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                ;
+                .and().httpBasic();
 
 
 
@@ -58,7 +48,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
+        auth
+                .authenticationProvider(daoAuthenticationProvider());
     }
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
@@ -83,5 +74,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
