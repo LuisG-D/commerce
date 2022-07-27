@@ -1,25 +1,18 @@
 package com.commerce.commerce.registration;
 
 
-import com.commerce.commerce.appuser.AppUser;
-import com.commerce.commerce.security.jwt.JwtResponse;
 import com.commerce.commerce.security.jwt.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -44,25 +37,16 @@ public class AuthController {
         return "Hola mundo";
     }
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
+    public String authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                         loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        AppUser user = (AppUser) authentication.getPrincipal();
-        List<String> roles = user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                roles));
+        if(Objects.nonNull(authentication)){
+            return "ESTAS DENTRO";
+        }else{
+            return "redirect:/login";
+        }
     }
 
     @GetMapping(path="dentro")

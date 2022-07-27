@@ -4,4 +4,6 @@ public enum AppUserRole {
     MAYORISTA,
     AGRICULTOR,
     ADMIN
+
+
 }

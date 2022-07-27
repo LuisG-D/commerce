@@ -37,8 +37,8 @@ public class AppUserService implements UserDetailsService {
 
 
     public String singUpUser(AppUser appUser){
-        boolean userExists = appUserRepository.findByEmail(appUser.getEmail())
-                .isPresent();
+        boolean userExists = appUserRepository
+                .findByEmail(appUser.getEmail()).isPresent();
 
         if (userExists) {
             throw new IllegalStateException("email already taken");

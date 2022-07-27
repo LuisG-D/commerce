@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Collections;
 
+import static com.commerce.commerce.appuser.AppUserRole.AGRICULTOR;
+
 @Getter
 @Setter
 
@@ -55,10 +57,12 @@ public class AppUser implements UserDetails {
 
     public AppUser(String username,
                    String email,
-                   String password, AppUserRole agricultor) {
+                   String password,
+                   AppUserRole appUserRole) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.appUserRole = appUserRole;
 
 
     }
