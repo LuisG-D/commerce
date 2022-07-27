@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/auth")
 public class MayoristController {
     private final Logger log = LoggerFactory.getLogger(MayoristController.class);
 
     //Dependencia
-    private MayoristService mayoristService;
+    private final MayoristService mayoristService;
     private MayoristRepository repository;
 
     public MayoristController(MayoristService mayoristService) {this.mayoristService = mayoristService;}
@@ -36,10 +36,8 @@ public class MayoristController {
         Optional<Mayorist> mayoristOpt = this.mayoristService.findById(id);
 
         //Vemos si existe o no
-        if (mayoristOpt.isPresent()){
-            return ResponseEntity.ok(mayoristOpt.get());
-        }
-        return ResponseEntity.notFound().build();
+        return mayoristOpt.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
     //Listamos a los mayoritas
     @GetMapping("/mayorists")
