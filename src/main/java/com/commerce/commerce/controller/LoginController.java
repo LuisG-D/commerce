@@ -56,12 +56,6 @@ public class LoginController {
         }
     }
 
-    @GetMapping(path="dentro")
-    public String dentro(@RequestParam("sing") String sing){
-        return loginService.singinUser(sing);
-
-
-    }
 
 
 }
