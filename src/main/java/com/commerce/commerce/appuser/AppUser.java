@@ -17,10 +17,10 @@ import static com.commerce.commerce.appuser.AppUserRole.AGRICULTOR;
 
 @Getter
 @Setter
-
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
+@ToString
 
 public class AppUser implements UserDetails {
 

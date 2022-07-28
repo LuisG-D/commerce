@@ -1,6 +1,7 @@
 package com.commerce.commerce.security.config;
 
 
+import com.commerce.commerce.appuser.AppUser;
 import com.commerce.commerce.appuser.AppUserService;
 import com.commerce.commerce.security.jwt.AuthEntryPointJwt;
 import com.commerce.commerce.security.jwt.AuthTokenFilter;
@@ -65,4 +66,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 }

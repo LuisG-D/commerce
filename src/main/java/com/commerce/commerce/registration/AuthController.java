@@ -1,6 +1,8 @@
 package com.commerce.commerce.registration;
 
 
+import com.commerce.commerce.appuser.AppUser;
+import com.commerce.commerce.appuser.AppUserService;
 import com.commerce.commerce.security.jwt.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,8 +28,10 @@ public class AuthController {
     AuthenticationManager authenticationManager;
     RegistrationService registrationService;
     LoginService loginService;
+
     @Autowired
     JwtUtils jwtUtils;
+
 
     @GetMapping("/hello")
     public String hello() {
@@ -37,13 +42,14 @@ public class AuthController {
         return "Hola mundo";
     }
     @PostMapping("/signin")
-    public String authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
+    public String authenticateUser(@Valid @RequestBody LoginRequest loginRequest, AppUser user) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                         loginRequest.getPassword()));
         if(Objects.nonNull(authentication)){
-            return "ESTAS DENTRO";
+            return user.toString();
+
         }else{
             return "redirect:/login";
         }
@@ -65,5 +71,6 @@ public class AuthController {
                           String token){
         return registrationService.confirmToken(token);
     }
+
 
 }
