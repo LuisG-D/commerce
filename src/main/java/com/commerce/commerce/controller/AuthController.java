@@ -1,9 +1,11 @@
-package com.commerce.commerce.registration;
+package com.commerce.commerce.controller;
 
 
 import com.commerce.commerce.appuser.AppUser;
-import com.commerce.commerce.appuser.AppUserService;
-import com.commerce.commerce.security.jwt.JwtUtils;
+import com.commerce.commerce.registration.LoginRequest;
+import com.commerce.commerce.registration.LoginService;
+import com.commerce.commerce.registration.RegistrationRequest;
+import com.commerce.commerce.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +32,7 @@ public class AuthController {
     RegistrationService registrationService;
     LoginService loginService;
 
-    @Autowired
-    JwtUtils jwtUtils;
+
 
 
     @GetMapping("/hello")

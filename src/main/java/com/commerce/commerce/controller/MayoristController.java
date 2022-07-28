@@ -1,4 +1,4 @@
-package com.commerce.commerce.mayorist.controller;
+package com.commerce.commerce.controller;
 
 import com.commerce.commerce.mayorist.domain.Mayorist;
 import com.commerce.commerce.mayorist.dto.CountDTO;
@@ -7,11 +7,9 @@ import com.commerce.commerce.mayorist.service.MayoristService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
