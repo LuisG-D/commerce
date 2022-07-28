@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ import java.util.Objects;
 @AllArgsConstructor
 
 public class AuthController {
+
     private final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     AuthenticationManager authenticationManager;
@@ -47,9 +50,10 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                         loginRequest.getPassword()));
-        if(Objects.nonNull(authentication)){
-            return user.toString();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
+        if(Objects.nonNull(authentication)){
+            return userDetails.toString();
         }else{
             return "redirect:/login";
         }
