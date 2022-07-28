@@ -4,12 +4,10 @@ package com.commerce.commerce.controller;
 import com.commerce.commerce.appuser.AppUser;
 import com.commerce.commerce.registration.LoginRequest;
 import com.commerce.commerce.registration.LoginService;
-import com.commerce.commerce.registration.RegistrationRequest;
 import com.commerce.commerce.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,9 +22,9 @@ import java.util.Objects;
 @RequestMapping(path = "api/auth")
 @AllArgsConstructor
 
-public class AuthController {
+public class LoginController {
 
-    private final Logger log = LoggerFactory.getLogger(AuthController.class);
+    private final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     AuthenticationManager authenticationManager;
     RegistrationService registrationService;
@@ -63,16 +61,6 @@ public class AuthController {
         return loginService.singinUser(sing);
 
 
-    }
-    @PostMapping("/signup")
-    public String register(@RequestBody RegistrationRequest request){
-
-        return registrationService.register(request);
-    }
-    @GetMapping(path ="confirm")
-    public String confirm(@RequestParam("token")
-                          String token){
-        return registrationService.confirmToken(token);
     }
 
 
