@@ -11,10 +11,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 
 @Configuration
@@ -30,12 +33,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+
+                .authorizeRequests()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/swagger-resources",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-resources/configuration/security",
+                        "/swagger-ui/**")
+                .permitAll()
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/auth/singup/**").permitAll()
-                .antMatchers("/api/v*/registration/**")
+                .antMatchers("/api/v*/**")
                 .permitAll()
                 .antMatchers("/api/test/**").permitAll()
+
                 .anyRequest().authenticated();
+
 
 
 

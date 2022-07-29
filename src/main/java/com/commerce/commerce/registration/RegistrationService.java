@@ -42,7 +42,7 @@ public class RegistrationService {
         )
         );
             //CAMBIAR EL LINK POR EL DOMINIO
-        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+        String link = "http://localhost:8080/api/auth/signup/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
                 buildEmail(request.getUsername(), link));

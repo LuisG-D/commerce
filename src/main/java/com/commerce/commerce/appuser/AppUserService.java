@@ -1,5 +1,6 @@
 package com.commerce.commerce.appuser;
 
+
 import com.commerce.commerce.registration.token.ConfirmationToken;
 import com.commerce.commerce.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
