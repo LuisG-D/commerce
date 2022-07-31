@@ -1,4 +1,4 @@
-package com.commerce.commerce.mayorist.dto;
+package com.commerce.commerce.mayorista.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

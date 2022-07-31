@@ -1,52 +1,50 @@
-package com.commerce.commerce.mayorist.service;
-
-import com.commerce.commerce.mayorist.domain.Mayorist;
-import com.commerce.commerce.mayorist.repository.MayoristRepository;
+package com.commerce.commerce.mayorista.service;
+import com.commerce.commerce.mayorista.domain.Mayorista;
+import com.commerce.commerce.mayorista.repository.MayoristaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class MayoristServiceImpl implements MayoristService{
+public class MayoristaServiceImpl implements MayoristaService{
 
-    private final Logger log = LoggerFactory.getLogger(MayoristServiceImpl.class);
-    private MayoristRepository repository;
+    private final Logger log = LoggerFactory.getLogger(MayoristaServiceImpl.class);
+    private MayoristaRepository repository;
 
-    public MayoristServiceImpl(MayoristRepository repository){this.repository = repository;}
+    public MayoristaServiceImpl(MayoristaRepository repository){this.repository = repository;}
 
     @Override
-    public List<Mayorist> findAll() {
+    public List<Mayorista> findAll() {
         log.info(("Executing findAll Mayorist"));
         return this.repository.findAll();
     }
 
     @Override
-    public Optional<Mayorist> findById(Long id) {
+    public Optional<Mayorista> findById(Long id) {
         log.info("Executing findById");
         return this.repository.findById(id);
     }
 
     @Override
     public Long count() {
-        log.info("Get the total number of mayorist");
+        log.info("Get the total number of mayorista");
         return this.repository.count();
     }
 
     @Override
-    public Mayorist save(Mayorist mayorist) {
-         log.info("Creating or Updating a mayorist");
+    public Mayorista save(Mayorista mayorista) {
+        log.info("Creating or Updating a mayorista");
 
-         if(!this.validateMayorist(mayorist))
-             return null;
+        if(!this.validateMayorist(mayorista))
+            return null;
 
-         Mayorist mayoristDB = (Mayorist) this.repository.save(mayorist);
+        Mayorista mayoristaDB = (Mayorista) this.repository.save(mayorista);
 
-         return mayoristDB;
+        return mayoristaDB;
     }
 
     @Override
@@ -66,28 +64,28 @@ public class MayoristServiceImpl implements MayoristService{
     }
 
     @Override
-    public List<Mayorist> findByCountry(String country) {
+    public List<Mayorista> findByCountry(String country) {
         if(!StringUtils.hasLength(country))
             return new ArrayList<>();
         return this.repository.findByCountry(country);
     }
 
-    private boolean validateMayorist(Mayorist mayorist){
+    private boolean validateMayorist(Mayorista mayorista){
         //if null return false
-        if(mayorist == null){
-            log.warn("Trying to create a null Mayorist");
+        if(mayorista == null){
+            log.warn("Trying to create a null Mayorista");
             return false;
         }
         return true;
     }
 
-    public List<Mayorist> findByAvailableTrue(){
+    public List<Mayorista> findByAvailableTrue(){
         return this.repository.findByAvailableTrue();
     }
-    public List<Mayorist> findBySector(String sector){
+    public List<Mayorista> findBySector(String sector){
         return this.repository.findBySector(sector);
     }
-    public List<Mayorist> findByProductType(String productType){
+    public List<Mayorista> findByProductType(String productType){
         return this.repository.findByProductType(productType);
     }
 
