@@ -8,14 +8,14 @@ import com.commerce.commerce.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -49,8 +49,8 @@ public class LoginController {
 
         try {
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
-                        loginRequest.getPassword()));
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                            loginRequest.getPassword()));
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -58,8 +58,8 @@ public class LoginController {
                 return new ResponseEntity<>(userDetails,null,HttpStatus.OK);
             }else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datos de usuario incorrectos");
-            } 
-                  
+            }
+
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datos de usuario incorrectos");
         }
