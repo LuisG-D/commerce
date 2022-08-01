@@ -1,26 +1,36 @@
 package com.commerce.commerce.mayorista.service;
 import com.commerce.commerce.mayorista.domain.Mayorista;
 import com.commerce.commerce.mayorista.repository.MayoristaRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Example;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
+@Transactional
 public class MayoristaServiceImpl implements MayoristaService{
 
     private final Logger log = LoggerFactory.getLogger(MayoristaServiceImpl.class);
     private MayoristaRepository repository;
-
     public MayoristaServiceImpl(MayoristaRepository repository){this.repository = repository;}
 
     @Override
     public List<Mayorista> findAll() {
         log.info(("Executing findAll Mayorist"));
         return this.repository.findAll();
+    }
+
+    @Override
+    public Page<Mayorista> findAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
 
     @Override
@@ -63,10 +73,11 @@ public class MayoristaServiceImpl implements MayoristaService{
 
     }
 
+
+
+
     @Override
     public List<Mayorista> findByCountry(String country) {
-        if(!StringUtils.hasLength(country))
-            return new ArrayList<>();
         return this.repository.findByCountry(country);
     }
 
@@ -88,5 +99,7 @@ public class MayoristaServiceImpl implements MayoristaService{
     public List<Mayorista> findByProductType(String productType){
         return this.repository.findByProductType(productType);
     }
+
+
 
 }

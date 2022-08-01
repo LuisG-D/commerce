@@ -13,9 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -45,25 +42,18 @@ public class LoginController {
         return "Hola mundo";
     }
     @PostMapping("/signin")
-    public ResponseEntity<UserDetails> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, AppUser user) {
+    public String authenticateUser(@Valid @RequestBody LoginRequest loginRequest, AppUser user) {
 
-        try {
-            Authentication authentication = authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                         loginRequest.getPassword()));
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            if(Objects.nonNull(authentication)){
-                return new ResponseEntity<>(userDetails,null,HttpStatus.OK);
-            }else{
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datos de usuario incorrectos");
-            } 
-                  
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datos de usuario incorrectos");
+        if(Objects.nonNull(authentication)){
+            return userDetails.toString();
+        }else{
+            return "redirect:/login";
         }
-
     }
 
 

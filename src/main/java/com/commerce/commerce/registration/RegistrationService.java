@@ -9,6 +9,7 @@ import com.commerce.commerce.exception.EmailAlreadyExistsException;
 import com.commerce.commerce.registration.token.ConfirmationToken;
 import com.commerce.commerce.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,17 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 @ToString
+
 public class RegistrationService {
 
     private final AppUserService appUserService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+
+
+
+
     public String register(RegistrationRequest request) {
     boolean isValidEmail = emailValidator.
             test(request.getEmail());
