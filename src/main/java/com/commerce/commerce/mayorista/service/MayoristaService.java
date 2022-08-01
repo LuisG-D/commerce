@@ -26,5 +26,12 @@ public interface MayoristaService {
 
     List<Mayorista> findByCountry(String country);
     List<Mayorista> findBySector(String sector);
+    Page<Mayorista> filter(
+        String name, 
+        String country, 
+        String sector, 
+        String sortBy,
+        Pageable pageable
+    );
 
 }

@@ -1,10 +1,9 @@
 package com.commerce.commerce.mayorista.service;
 import com.commerce.commerce.mayorista.domain.Mayorista;
 import com.commerce.commerce.mayorista.repository.MayoristaRepository;
-
+import com.commerce.commerce.mayorista.repository.MayoristaFilterRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,12 @@ public class MayoristaServiceImpl implements MayoristaService{
 
     private final Logger log = LoggerFactory.getLogger(MayoristaServiceImpl.class);
     private MayoristaRepository repository;
-    public MayoristaServiceImpl(MayoristaRepository repository){this.repository = repository;}
+    private MayoristaFilterRepository repositoryFilter;
+
+    public MayoristaServiceImpl(MayoristaRepository repository, MayoristaFilterRepository repositoryFilter){
+        this.repository = repository;
+        this.repositoryFilter = repositoryFilter;
+    }
 
     @Override
     public List<Mayorista> findAll() {
@@ -73,9 +77,6 @@ public class MayoristaServiceImpl implements MayoristaService{
 
     }
 
-
-
-
     @Override
     public List<Mayorista> findByCountry(String country) {
         return this.repository.findByCountry(country);
@@ -98,6 +99,24 @@ public class MayoristaServiceImpl implements MayoristaService{
     }
     public List<Mayorista> findByProductType(String productType){
         return this.repository.findByProductType(productType);
+    }
+
+    @Override
+    public Page<Mayorista> filter(
+        String name, 
+        String country, 
+        String sector,
+        String sortBy,
+        Pageable pageable
+    ) {
+        
+        return this.repositoryFilter.getFilterPaginate(
+            name, 
+            country, 
+            sector, 
+            sortBy,
+            pageable
+        );
     }
 
 
