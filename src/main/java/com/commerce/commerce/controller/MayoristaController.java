@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -24,7 +25,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,7 +40,10 @@ public class MayoristaController {
     private MayoristaRepository repository;
     EntityManager em;
 
-    public MayoristaController(MayoristaService mayoristaService) {this.mayoristaService = mayoristaService;}
+    public MayoristaController(MayoristaService mayoristaService)
+    {
+        this.mayoristaService = mayoristaService;
+    }
 
     /*           Spring CRUD Methods                       */
 
@@ -112,17 +118,36 @@ public class MayoristaController {
 /**
  * ====================TODO CUSTOM CRUD METHODS ==========
  **/
-@ApiModelProperty(value = "Aqui Buscamos por country")
-@GetMapping(value ="", params ={"country"})
-public List<Mayorista>findByCountry(@RequestParam String country){
-    return this.mayoristaService.findByCountry(country);
-}
+    @GetMapping(path = "/filter")    
+    public ResponseEntity<Map<String, Object>> filter(
+        @RequestParam(required = false) String sector,
+        @RequestParam(required = false) String country,
+        @RequestParam(required = false) String name,
+        @RequestParam(defaultValue = "name") String sortBy,
+        @RequestParam(defaultValue = "15") int itemPerPage,
+        @RequestParam(defaultValue = "0") int page
+    ){
+        log.info("REST request filter mayorista");
+        try {
+            Pageable pageable = PageRequest.of(page, itemPerPage);
+            List<Mayorista> mayoristas = new ArrayList<Mayorista>();
 
+            Page<Mayorista> pageMayoristas = this.mayoristaService.filter(
+                name, country, sector, sortBy, pageable);
 
-@GetMapping(value ="", params ={"sector"})
-@ApiModelProperty(value = "Aqui Buscamos por sector")
-    public List<Mayorista>findBySector(@RequestParam String sector){
-        return this.mayoristaService.findBySector(sector);
+            mayoristas = pageMayoristas.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("mayoristas", mayoristas);
+            response.put("currentPage", pageMayoristas.getNumber());
+            response.put("totalItems", pageMayoristas.getTotalElements());
+            response.put("totalPages", pageMayoristas.getTotalPages());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }

@@ -6,8 +6,8 @@ server:
 
 spring:
   datasource:
-    password: admin
-    url: jdbc:postgresql://localhost:5432/data
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/backend
     username: postgres
   jpa:
     hibernate:
@@ -22,7 +22,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: agricocommerce
-    password: jcemdwbymjiekhfh
+    password: gkiosuolfexizcld
 
     properties:
       mail:
