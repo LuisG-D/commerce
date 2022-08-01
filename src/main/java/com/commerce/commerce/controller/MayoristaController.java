@@ -118,19 +118,6 @@ public class MayoristaController {
 /**
  * ====================TODO CUSTOM CRUD METHODS ==========
  **/
-    @ApiModelProperty(value = "Aqui Buscamos por country")
-    @GetMapping(value ="", params ={"country"})
-    public List<Mayorista>findByCountry(@RequestParam String country){
-        return this.mayoristaService.findByCountry(country);
-    }
-
-
-    @GetMapping(value ="", params ={"sector"})
-    @ApiModelProperty(value = "Aqui Buscamos por sector")
-    public List<Mayorista>findBySector(@RequestParam String sector){
-        return this.mayoristaService.findBySector(sector);
-    }
-
     @GetMapping(path = "/filter")    
     public ResponseEntity<Map<String, Object>> filter(
         @RequestParam(required = false) String sector,
