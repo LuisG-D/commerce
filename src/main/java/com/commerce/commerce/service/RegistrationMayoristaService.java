@@ -1,13 +1,14 @@
 package com.commerce.commerce.service;
 
-
 import com.commerce.commerce.entity.AppUser;
-import com.commerce.commerce.role.AppUserRole;
-import com.commerce.commerce.repository.EmailSender;
-import com.commerce.commerce.exception.EmailAlreadyExistsException;
-import com.commerce.commerce.request.EmailValidator;
-import com.commerce.commerce.request.RegistrationRequest;
 import com.commerce.commerce.entity.ConfirmationToken;
+import com.commerce.commerce.entity.Mayorista;
+import com.commerce.commerce.exception.EmailAlreadyExistsException;
+import com.commerce.commerce.repository.EmailSender;
+import com.commerce.commerce.request.EmailValidator;
+import com.commerce.commerce.request.RegistrationMayoristaRequest;
+import com.commerce.commerce.request.RegistrationRequest;
+import com.commerce.commerce.role.AppUserRole;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 
-public class RegistrationService {
+public class RegistrationMayoristaService {
 
     private final AppUserService appUserService;
     private final EmailValidator emailValidator;
@@ -29,24 +30,31 @@ public class RegistrationService {
 
 
 
-    public String register(RegistrationRequest request) {
-    boolean isValidEmail = emailValidator.
-            test(request.getEmail());
+    public String register(RegistrationMayoristaRequest request) {
+        boolean isValidEmail = emailValidator.
+                test(request.getEmail());
 
-    if(!isValidEmail) {
-        throw new EmailAlreadyExistsException("Invalid email");
-    }
+        if(!isValidEmail) {
+            throw new EmailAlreadyExistsException("Invalid email");
+        }
 
-       String token = appUserService.singUpUser(
+        String token = appUserService.singUpUser(
                 new AppUser(
                         request.getUsername(),
                         request.getEmail(),
                         request.getPassword(),
-                        AppUserRole.AGRICULTOR
+                        AppUserRole.MAYORISTA),
+                new Mayorista(
+                        request.getCountry(),
+                        request.getDescription(),
+                        request.getName(),
+                        request.getProducType(),
+                        request.getAvailable(),
+                        request.getSector()
+                )
 
-        )
         );
-            //CAMBIAR EL LINK POR EL DOMINIO
+        //CAMBIAR EL LINK POR EL DOMINIO
         String link = "http://localhost:8080/api/auth/signup/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
@@ -147,3 +155,4 @@ public class RegistrationService {
     }
 
 }
+

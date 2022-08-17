@@ -3,7 +3,11 @@ import com.commerce.commerce.dto.CountDTO;
 import com.commerce.commerce.dto.WholesalerDTO;
 import com.commerce.commerce.entity.Mayorista;
 import com.commerce.commerce.repository.MayoristaRepository;
+import com.commerce.commerce.request.RegistrationMayoristaRequest;
+import com.commerce.commerce.request.RegistrationRequest;
 import com.commerce.commerce.service.MayoristaService;
+import com.commerce.commerce.service.RegistrationMayoristaService;
+import com.commerce.commerce.service.RegistrationService;
 import io.swagger.annotations.ApiModelProperty;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -39,17 +43,22 @@ public class MayoristaController {
     //Dependencia
     private MayoristaService mayoristaService;
   private MayoristaRepository repository;
+    private RegistrationService registrationService;
     EntityManager em;
+    private RegistrationMayoristaService registrationMayoristaService;
 
 
     private ModelMapper modelMapper;
 
 
-    public MayoristaController(MayoristaService mayoristaService, MayoristaRepository repository)
+    public MayoristaController(MayoristaService mayoristaService,
+                               MayoristaRepository repository,
+                               RegistrationMayoristaService registrationMayoristaService)
     {
         super();
         this.mayoristaService = mayoristaService;
         this.repository = repository;
+        this.registrationMayoristaService = registrationMayoristaService;
     }
 
     /*           Spring CRUD Methods                       */
@@ -81,7 +90,13 @@ public class MayoristaController {
 
 
     //Crear un mayorista
-    @PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
+
+
+    @PostMapping
+    public String register(@RequestBody RegistrationMayoristaRequest request) {
+        return registrationMayoristaService.register(request);
+    }
+    /*@PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Mayorista> create(@RequestBody Mayorista mayorista){
         log.info("REST request to create mayorista");
         //Comprobamos si ya existe un mayoristaa con el ID
@@ -91,7 +106,7 @@ public class MayoristaController {
         }
         return ResponseEntity.ok(this.repository.save(mayorista));
     }
-
+*/
     //Update a mayorista
     @PutMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Mayorista> update(@RequestBody Mayorista mayorista){

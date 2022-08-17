@@ -1,10 +1,7 @@
 package com.commerce.commerce.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class Mayorista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +33,12 @@ public class Mayorista {
             nullable = false,
             name = "app_user_mayorista")
     private AppUser appUser;
-    public Mayorista() {}
+    public Mayorista(String country,
+                     String description,
+                     String name,
+                     String producType,
+                     Boolean available,
+                     String sector) {}
 
 
 }

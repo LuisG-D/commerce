@@ -2,6 +2,7 @@ package com.commerce.commerce.service;
 
 
 import com.commerce.commerce.entity.AppUser;
+import com.commerce.commerce.entity.Mayorista;
 import com.commerce.commerce.repository.AppUserRepository;
 import com.commerce.commerce.entity.ConfirmationToken;
 import lombok.AllArgsConstructor;
@@ -57,6 +58,31 @@ public class AppUserService implements UserDetailsService {
                 );
         confirmationTokenService.saveConfirmationToken(
                                     confirmationToken);
+
+        //TODO: Send EMAIL
+        return token;
+    }public String singUpUser(AppUser appUser, Mayorista mayorista){
+        boolean userExists = appUserRepository
+                .findByEmail(appUser.getEmail()).isPresent();
+
+        if (userExists) {
+            throw new IllegalStateException("email already taken");
+        }
+        String encodedPassword = bCryptPasswordEncoder
+                .encode(appUser.getPassword());
+        appUser.setPassword(encodedPassword);
+        appUserRepository.save(appUser);
+
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                appUser
+        );
+        confirmationTokenService.saveConfirmationToken(
+                confirmationToken);
 
         //TODO: Send EMAIL
         return token;

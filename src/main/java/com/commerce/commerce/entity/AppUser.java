@@ -5,6 +5,7 @@ import com.commerce.commerce.role.AppUserRole;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -44,8 +45,8 @@ public class AppUser implements UserDetails {
     @Column(unique = true)
     private String email;
     @NotBlank
+    @NotNull
     @Size(max = 120)
-    @JsonIgnore
     private String password;
 
 
