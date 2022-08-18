@@ -36,14 +36,14 @@ public class LoginController {
 
 
 
-    @GetMapping("/hello")
+    /*@GetMapping("/hello")
     public String hello() {
         log.info("Executing hello world method from logger");
         // diferentes niveles de logger:
         // log.warn("Executing hello world method from logger");
         // log.error("Executing hello world method from logger");
         return "Hola mundo";
-    }
+    }*/
     @PostMapping("/signin")
     public ResponseEntity<UserDetails> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, AppUser user) {
 

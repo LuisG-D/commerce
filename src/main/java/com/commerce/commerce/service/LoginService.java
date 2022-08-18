@@ -25,7 +25,7 @@ public class LoginService {
                 .getToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
-        if(confirmationToken.getConfirmedAt() == null){
+        if(confirmationToken.getConfirmedAt() == null) {
             throw new IllegalStateException("email not confirmed");
         }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();

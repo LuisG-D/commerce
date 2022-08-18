@@ -44,6 +44,7 @@ public class ConfirmationToken {
     )
     private AppUser appUser;
 
+
     public ConfirmationToken(String token,
                              LocalDateTime createdAt,
                              LocalDateTime expiresAt,

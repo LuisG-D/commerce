@@ -1,10 +1,10 @@
 package com.commerce.commerce.service;
 
-
 import com.commerce.commerce.entity.AppUser;
+import com.commerce.commerce.entity.ConfirmationToken;
 import com.commerce.commerce.entity.Mayorista;
 import com.commerce.commerce.repository.AppUserRepository;
-import com.commerce.commerce.entity.ConfirmationToken;
+import com.commerce.commerce.repository.MayoristaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,12 +16,13 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @Service
 @AllArgsConstructor
 @Validated
-public class AppUserService implements UserDetailsService {
+public class MayoristaUserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG = "User with email %s not found";
-    private final AppUserRepository appUserRepository;
+    private final MayoristaRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
@@ -36,32 +37,6 @@ public class AppUserService implements UserDetailsService {
     }
 
 
-    public String singUpUser(AppUser appUser){
-        boolean userExists = appUserRepository
-                .findByEmail(appUser.getEmail()).isPresent();
-
-        if (userExists) {
-            throw new IllegalStateException("email already taken");
-        }
-        String encodedPassword = bCryptPasswordEncoder
-                .encode(appUser.getPassword());
-        appUser.setPassword(encodedPassword);
-        appUserRepository.save(appUser);
-
-            String token = UUID.randomUUID().toString();
-
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-            token,
-            LocalDateTime.now(),
-            LocalDateTime.now().plusMinutes(15),
-            appUser
-                );
-        confirmationTokenService.saveConfirmationToken(
-                                    confirmationToken);
-
-        //TODO: Send EMAIL
-        return token;
-    }
     public String singUpUser(AppUser appUser, Mayorista mayorista){
         boolean userExists = appUserRepository
                 .findByEmail(appUser.getEmail()).isPresent();
@@ -71,7 +46,7 @@ public class AppUserService implements UserDetailsService {
         }
         String encodedPassword = bCryptPasswordEncoder
                 .encode(mayorista.getPassword());
-        mayorista.setPassword(encodedPassword);
+        appUser.setPassword(encodedPassword);
         appUserRepository.save(mayorista);
 
         String token = UUID.randomUUID().toString();
@@ -80,7 +55,7 @@ public class AppUserService implements UserDetailsService {
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
-                mayorista
+                appUser
         );
         confirmationTokenService.saveConfirmationToken(
                 confirmationToken);
@@ -92,3 +67,4 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.enableAppUser(email);
     }
 }
+

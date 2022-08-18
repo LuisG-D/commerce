@@ -39,20 +39,19 @@ public class RegistrationMayoristaService {
         }
 
         String token = appUserService.singUpUser(
-                new AppUser(
+                new Mayorista(
                         request.getUsername(),
                         request.getEmail(),
                         request.getPassword(),
-                        AppUserRole.MAYORISTA),
-                new Mayorista(
+                        AppUserRole.MAYORISTA,
                         request.getCountry(),
-                        request.getDescription(),
                         request.getName(),
-                        request.getProducType(),
+                        request.getDescription(),
+                        request.getProductType(),
                         request.getAvailable(),
                         request.getSector()
-                )
 
+                )
         );
         //CAMBIAR EL LINK POR EL DOMINIO
         String link = "http://localhost:8080/api/auth/signup/confirm?token=" + token;
@@ -155,4 +154,3 @@ public class RegistrationMayoristaService {
     }
 
 }
-

@@ -4,7 +4,6 @@ import com.commerce.commerce.dto.WholesalerDTO;
 import com.commerce.commerce.entity.Mayorista;
 import com.commerce.commerce.repository.MayoristaRepository;
 import com.commerce.commerce.request.RegistrationMayoristaRequest;
-import com.commerce.commerce.request.RegistrationRequest;
 import com.commerce.commerce.service.MayoristaService;
 import com.commerce.commerce.service.RegistrationMayoristaService;
 import com.commerce.commerce.service.RegistrationService;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +40,7 @@ public class MayoristaController {
 
     //Dependencia
     private MayoristaService mayoristaService;
-  private MayoristaRepository repository;
+    private MayoristaRepository repository;
     private RegistrationService registrationService;
     EntityManager em;
     private RegistrationMayoristaService registrationMayoristaService;
@@ -59,6 +57,7 @@ public class MayoristaController {
         this.mayoristaService = mayoristaService;
         this.repository = repository;
         this.registrationMayoristaService = registrationMayoristaService;
+
     }
 
     /*           Spring CRUD Methods                       */
@@ -90,12 +89,13 @@ public class MayoristaController {
 
 
     //Crear un mayorista
-
-
-    @PostMapping
-    public String register(@RequestBody RegistrationMayoristaRequest request) {
-        return registrationMayoristaService.register(request);
+    @PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
+    public String register(@RequestBody RegistrationMayoristaRequest registrationMayoristaRequest){
+        return registrationMayoristaService.register(registrationMayoristaRequest);
     }
+
+
+
     /*@PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Mayorista> create(@RequestBody Mayorista mayorista){
         log.info("REST request to create mayorista");
@@ -105,8 +105,8 @@ public class MayoristaController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(this.repository.save(mayorista));
-    }
-*/
+    }*/
+
     //Update a mayorista
     @PutMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Mayorista> update(@RequestBody Mayorista mayorista){
