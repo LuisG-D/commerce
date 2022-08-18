@@ -34,6 +34,7 @@ public class AppUser implements UserDetails {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY)
     @Column(name = "app_user_id")
+    @JsonIgnore
     private Long id;
     @NotBlank
     @Size(max = 20)
@@ -47,6 +48,7 @@ public class AppUser implements UserDetails {
     @NotBlank
     @NotNull
     @Size(max = 120)
+    @JsonIgnore
     private String password;
 
 
@@ -56,12 +58,16 @@ public class AppUser implements UserDetails {
             orphanRemoval = true
     )
     //@JsonManagedReference
+    @JsonIgnore
     private List<ChatMessage> chatMessageList = new ArrayList<>();
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private AppUserRole appUserRole;
+    @JsonIgnore
     private Boolean locked = false;
+    @JsonIgnore
     private Boolean enabled = false;
 
     public AppUser(String username,
@@ -97,16 +103,19 @@ public class AppUser implements UserDetails {
 
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return !locked;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }

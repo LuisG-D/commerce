@@ -2,6 +2,7 @@ package com.commerce.commerce.entity;
 
 
 import com.commerce.commerce.role.AppUserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,18 +16,25 @@ import javax.persistence.*;
 public class Mayorista  extends AppUser{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
-    @Column(nullable = false)
+    //@Column(nullable = false)
+    @JsonIgnore
     private String name;
-    @Column(nullable = false)
+   // @Column(nullable = false)
+   @JsonIgnore
     private String description;
-    @Column(nullable = false)
+  //  @Column(nullable = false)
+  @JsonIgnore
     private String productType;
-    @Column(nullable = false)
+   // @Column(nullable = false)
+   @JsonIgnore
     private Boolean available;
-    @Column(nullable = false)
+   // @Column(nullable = false)
+   @JsonIgnore
     private String sector;
-    @Column(nullable = false)
+   // @Column(nullable = false)
+    @JsonIgnore
     private String country;
 
     /*@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
