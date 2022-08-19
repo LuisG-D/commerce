@@ -55,7 +55,7 @@ public class MayoristaUserService implements UserDetailsService {
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
-                appUser
+                mayorista
         );
         confirmationTokenService.saveConfirmationToken(
                 confirmationToken);

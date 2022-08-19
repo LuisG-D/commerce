@@ -62,32 +62,6 @@ public class AppUserService implements UserDetailsService {
         //TODO: Send EMAIL
         return token;
     }
-    public String singUpUser(AppUser appUser, Mayorista mayorista){
-        boolean userExists = appUserRepository
-                .findByEmail(appUser.getEmail()).isPresent();
-
-        if (userExists) {
-            throw new IllegalStateException("email already taken");
-        }
-        String encodedPassword = bCryptPasswordEncoder
-                .encode(mayorista.getPassword());
-        mayorista.setPassword(encodedPassword);
-        appUserRepository.save(mayorista);
-
-        String token = UUID.randomUUID().toString();
-
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                mayorista
-        );
-        confirmationTokenService.saveConfirmationToken(
-                confirmationToken);
-
-        //TODO: Send EMAIL
-        return token;
-    }
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
     }

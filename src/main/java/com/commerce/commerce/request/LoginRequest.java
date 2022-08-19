@@ -12,11 +12,11 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @ToString
 public class LoginRequest {
-    @NotBlank
 
+    @NotBlank
     private String email;
-    @NotBlank
 
+    @NotBlank
     private String password;
 }
 

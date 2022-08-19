@@ -93,19 +93,12 @@ public class MayoristaController {
     public String register(@RequestBody RegistrationMayoristaRequest registrationMayoristaRequest){
         return registrationMayoristaService.register(registrationMayoristaRequest);
     }
+    @GetMapping(path = "confirm")
+    public String confirm(@RequestParam("token") String token) {
 
+        return registrationMayoristaService.confirmToken(token);
+    }
 
-
-    /*@PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Mayorista> create(@RequestBody Mayorista mayorista){
-        log.info("REST request to create mayorista");
-        //Comprobamos si ya existe un mayoristaa con el ID
-        if(mayorista.getId() != null){
-            log.warn("Trying to create mayorista with existent ID");
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(this.repository.save(mayorista));
-    }*/
 
     //Update a mayorista
     @PutMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
