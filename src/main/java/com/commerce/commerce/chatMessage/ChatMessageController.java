@@ -62,7 +62,6 @@ public class ChatMessageController {
         for (ChatMessageDTO chatMessageDTO : chatMessageListDTO) {
             ChatMessage newMessage = new ChatMessage();
             Optional<ChatRoom> room = chatRoomRepository.findById(chatMessageDTO.getChatRoomId());
-           // Optional<AppUser> user = userRepository.findByUsername(chatMessageDTO.getAuthorName());
             Optional<AppUser> user = userRepository.findByUsername(chatMessageDTO.getEmisor());
             if (room.isEmpty()) {
                 log.warn("ROOM NOT FOUND");

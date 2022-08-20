@@ -122,7 +122,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
     public List<ChatMessage> getChatMessageList() {
         return chatMessageList;
