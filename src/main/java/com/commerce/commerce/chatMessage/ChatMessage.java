@@ -2,7 +2,6 @@ package com.commerce.commerce.chatMessage;
 
 import com.commerce.commerce.chatRoom.ChatRoom;
 import com.commerce.commerce.entity.AppUser;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
