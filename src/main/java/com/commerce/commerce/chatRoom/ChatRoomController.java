@@ -15,14 +15,8 @@ public class ChatRoomController {
 
     @GetMapping("/chatrooms")
     public List<ChatRoom> getRooms(){
-        List<ChatRoom> rooms = chatRoomRepository.findAll();
-        if(rooms.isEmpty()){
-            throw new ChatroomsNotExistException("");
-        }
-
         return chatRoomRepository.findAll();
     }
-
     @RequestMapping(value = "/chatrooms", method = RequestMethod.POST)
     public ChatRoom createRooms(@RequestBody ChatRoomDTO chatRoomDTO){
         ChatRoom newRoom = new ChatRoom(

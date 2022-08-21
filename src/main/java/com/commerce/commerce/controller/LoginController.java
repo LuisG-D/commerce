@@ -1,6 +1,8 @@
 package com.commerce.commerce.controller;
 
 
+import com.commerce.commerce.entity.AppUser;
+import com.commerce.commerce.exception.UsernameNotFoundException;
 import com.commerce.commerce.request.LoginRequest;
 
 import com.commerce.commerce.service.AppUserService;
@@ -12,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -37,31 +41,25 @@ public class LoginController {
     AppUserService appUserService;
 
 
-
-
-
-
-
-
-
     @PostMapping("/signin")
-    public ResponseEntity<UserDetails> authenticateUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<UserDetails> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
 
-        try {
+
+       try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                             loginRequest.getPassword()));
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            if (userDetails.isEnabled() && !Objects.nonNull(authentication))
+            if (userDetails.isEnabled())
                    return new ResponseEntity<>(userDetails, null, HttpStatus.OK);
 
             return new ResponseEntity<>( userDetails, HttpStatus.BAD_REQUEST);
-           } catch (RuntimeException e) {
+           } catch (BadCredentialsException e) {
+                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datos incorrectos");
+                 } catch (AuthenticationException e) {
               throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email no Confirmado");
-      } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datos incorrectos");
-            }
+      }
 
 
     }

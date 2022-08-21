@@ -1,9 +1,7 @@
 package com.commerce.commerce.chatRoom;
 
 import com.commerce.commerce.chatMessage.ChatMessage;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,7 +32,8 @@ public class ChatRoom implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    //@JsonManagedReference
+
+    @JsonIgnore
     private List<ChatMessage> chatMessageList = new ArrayList<>();
 
     public ChatRoom() {

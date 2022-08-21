@@ -26,7 +26,7 @@ public class ChatMessage implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "emisor", nullable = false)
-   // @JsonManagedReference
+
     private AppUser emisor;
 
     @Column(nullable = false)
@@ -52,7 +52,10 @@ public class ChatMessage implements Serializable {
     }
 
     public ChatMessageDTO createDTO() {
-    return new ChatMessageDTO(chatRoom.getId(), emisor.getUsername(), textMessage, creationDateTime);}
+    return new ChatMessageDTO(chatRoom.getId(),
+            emisor.getUsername(),
+            textMessage,
+            creationDateTime);}
 
     public long getId() {
         return id;

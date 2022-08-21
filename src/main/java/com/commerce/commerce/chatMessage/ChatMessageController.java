@@ -39,7 +39,9 @@ public class ChatMessageController {
 
         }
 
-        return chatMessageRepository.findAll().parallelStream().map(ChatMessage::createDTO).collect(Collectors.toList());
+        return chatMessageRepository
+                .findAll().parallelStream()
+                .map(ChatMessage::createDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/chatmessages/{id}")
