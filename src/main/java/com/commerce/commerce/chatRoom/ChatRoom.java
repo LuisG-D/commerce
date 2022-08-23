@@ -28,22 +28,28 @@ public class ChatRoom implements Serializable {
     String emisor;
 
     @OneToMany(
-            mappedBy = "chatRoom",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-
+        mappedBy = "chatRoom",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )    
     @JsonIgnore
     private List<ChatMessage> chatMessageList = new ArrayList<>();
 
     public ChatRoom() {
     }
 
+    public ChatRoom(String receiver, String emisor) {
+        this.receiver = receiver;
+        this.emisor = emisor;
+    }
+    
     public ChatRoom(String receiver, String emisor, List<ChatMessage> chatMessageList) {
         this.receiver = receiver;
         this.emisor = emisor;
         this.chatMessageList = chatMessageList;
     }
+
+
 
 
     public long getId() {

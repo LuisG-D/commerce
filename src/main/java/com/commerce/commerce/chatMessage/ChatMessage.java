@@ -43,7 +43,8 @@ public class ChatMessage implements Serializable {
 
     public ChatMessage(ChatRoom chatRoom,
                        String textMessage,
-                       Date creationDateTime,AppUser emisor) {
+                       Date creationDateTime, 
+                       AppUser emisor) {
         this.chatRoom = chatRoom;
         this.emisor = emisor;
         this.textMessage = textMessage;
