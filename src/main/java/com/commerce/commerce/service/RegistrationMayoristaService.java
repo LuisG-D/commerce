@@ -45,8 +45,8 @@ public class RegistrationMayoristaService {
                         request.getPassword(),
                         AppUserRole.MAYORISTA,
                         request.getCountry(),
-                        request.getName(),
                         request.getDescription(),
+                        request.getName(),
                         request.getProductType(),
                         request.getAvailable(),
                         request.getSector()
