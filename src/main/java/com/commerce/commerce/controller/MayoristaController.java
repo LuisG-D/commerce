@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,7 +46,7 @@ public class MayoristaController {
     EntityManager em;
     private RegistrationMayoristaService registrationMayoristaService;
 
-
+    @Autowired
     private ModelMapper modelMapper;
 
 
@@ -93,6 +94,7 @@ public class MayoristaController {
     public String register(@RequestBody RegistrationMayoristaRequest registrationMayoristaRequest){
         return registrationMayoristaService.register(registrationMayoristaRequest);
     }
+    
     @GetMapping(path = "confirm")
     public String confirm(@RequestParam("token") String token) {
 

@@ -1,35 +1,107 @@
 package com.commerce.commerce.chatRoom;
 
+import com.commerce.commerce.chatMessage.ChatMessage;
+import com.commerce.commerce.chatMessage.ChatMessageDTO;
+import com.commerce.commerce.chatMessage.ChatMessageRepository;
+import com.commerce.commerce.entity.AppUser;
+import com.commerce.commerce.entity.Mayorista;
 import com.commerce.commerce.exception.*;
+import com.commerce.commerce.repository.AppUserRepository;
+import com.commerce.commerce.repository.MayoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class ChatRoomController {
     @Autowired
     private ChatRoomRepository chatRoomRepository;
+    private ChatMessageRepository chatMessageRepository;
+    private AppUserRepository userRepository;
+    private Mayorista mayorista;
+
+    public ChatRoomController(
+        ChatRoomRepository chatRoomRepository,
+        ChatMessageRepository chatMessageRepository,
+        AppUserRepository userRepository)
+    {
+        super();
+        this.chatRoomRepository = chatRoomRepository;
+        this.chatMessageRepository = chatMessageRepository;
+        this.userRepository = userRepository;
+
+    }
 
     @GetMapping("/chatrooms")
     public List<ChatRoom> getRooms(){
         return chatRoomRepository.findAll();
     }
+
     @RequestMapping(value = "/chatrooms", method = RequestMethod.POST)
-    public ChatRoom createRooms(@RequestBody ChatRoomDTO chatRoomDTO){
-        ChatRoom newRoom = new ChatRoom(
-                chatRoomDTO.getReceiver(), chatRoomDTO.getEmisor(), new ArrayList<>());
-        Optional <ChatRoom> existingRoom = chatRoomRepository.findByReceiverAndEmisor
-                (newRoom.getReceiver(), newRoom.getEmisor());
-        if(existingRoom.isPresent()){
-            throw new CreateRoomException(newRoom.getReceiver());
+    public ResponseEntity<String> createRooms(@RequestBody ChatRoomDTO chatRoomDTO){
+
+        Optional<AppUser> emisor = userRepository.findByUsername(chatRoomDTO.getEmisor());
+        Optional<AppUser> receiver = userRepository.findByUsername(chatRoomDTO.getReceiver());
+
+        if(!emisor.isPresent()){
+            return new ResponseEntity<String>("Usuario emisor no encontrado", HttpStatus.BAD_REQUEST);
         }
-        else if(chatRoomDTO.getReceiver().equals(chatRoomDTO.getEmisor())){
-            throw new EqualUserException(newRoom.getEmisor());
+
+        if(!receiver.isPresent()){
+            return new ResponseEntity<String>("Usuario receptor no encontrado", HttpStatus.BAD_REQUEST);
         }
-        return chatRoomRepository.save(newRoom);
+
+        if(chatRoomDTO.getMessage() == null){
+            return new ResponseEntity<String>("Escriba un mensaje", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<ChatRoom> chatroomFind = chatRoomRepository.findByReceiverAndEmisor(chatRoomDTO.getReceiver(), chatRoomDTO.getEmisor());        
+        ChatRoom chatRoom; 
+        List<ChatMessage> newMessages = new ArrayList<>();
+        
+
+        if(!chatroomFind.isPresent()){        
+            chatRoom = chatRoomRepository.save(new ChatRoom(chatRoomDTO.getReceiver(), chatRoomDTO.getEmisor()));
+        }else {
+            chatRoom = chatroomFind.get();
+        }
+        
+        if(chatRoomDTO.getMessage() != null){
+            newMessages.add(new ChatMessage(
+                chatRoom, 
+                chatRoomDTO.getMessage(), 
+                new Date(),
+                emisor.get() 
+            ));
+        }
+
+        if(chatRoomDTO.getProducts() != null){  
+            String message = "Productos para ofrecer: ";
+            message += String.join(", ", chatRoomDTO.getProducts());
+
+            newMessages.add(new ChatMessage(
+                chatRoom, 
+                message,
+                new Date(),
+                emisor.get() 
+            ));
+        }
+
+        chatMessageRepository.saveAll(newMessages);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Mensaje enviado");
+
+        return new ResponseEntity<String>("Mensaje enviado", HttpStatus.OK);
     }
 
 

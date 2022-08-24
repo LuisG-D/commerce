@@ -19,7 +19,6 @@ public class MayoristaServiceImpl implements MayoristaService{
     private final Logger log = LoggerFactory.getLogger(MayoristaServiceImpl.class);
     private MayoristaRepository repository;
     private MayoristaFilterRepository repositoryFilter;
-    public MayoristaServiceImpl(){}
 
     public MayoristaServiceImpl(MayoristaRepository repository, MayoristaFilterRepository repositoryFilter){
         this.repository = repository;

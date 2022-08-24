@@ -9,5 +9,5 @@ public class WholesalerDTO {
     private String productType;
     private String sector;
     private String country;
-    private UserDTO appUser;
+    private String username;
 }

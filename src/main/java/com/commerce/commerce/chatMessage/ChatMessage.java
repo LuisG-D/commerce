@@ -2,7 +2,6 @@ package com.commerce.commerce.chatMessage;
 
 import com.commerce.commerce.chatRoom.ChatRoom;
 import com.commerce.commerce.entity.AppUser;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -44,7 +43,8 @@ public class ChatMessage implements Serializable {
 
     public ChatMessage(ChatRoom chatRoom,
                        String textMessage,
-                       Date creationDateTime,AppUser emisor) {
+                       Date creationDateTime, 
+                       AppUser emisor) {
         this.chatRoom = chatRoom;
         this.emisor = emisor;
         this.textMessage = textMessage;
