@@ -1,6 +1,5 @@
-package com.commerce.commerce.chatRoom;
+package com.commerce.commerce.entity;
 
-import com.commerce.commerce.chatMessage.ChatMessage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

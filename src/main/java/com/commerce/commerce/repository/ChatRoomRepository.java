@@ -1,5 +1,6 @@
-package com.commerce.commerce.chatRoom;
+package com.commerce.commerce.repository;
 
+import com.commerce.commerce.entity.ChatRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

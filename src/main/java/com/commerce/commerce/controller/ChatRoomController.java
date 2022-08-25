@@ -1,13 +1,14 @@
-package com.commerce.commerce.chatRoom;
+package com.commerce.commerce.controller;
 
-import com.commerce.commerce.chatMessage.ChatMessage;
-import com.commerce.commerce.chatMessage.ChatMessageDTO;
-import com.commerce.commerce.chatMessage.ChatMessageRepository;
+import com.commerce.commerce.dto.ChatRoomDTO;
+import com.commerce.commerce.repository.ChatRoomRepository;
+import com.commerce.commerce.entity.ChatMessage;
+import com.commerce.commerce.repository.ChatMessageRepository;
 import com.commerce.commerce.entity.AppUser;
+import com.commerce.commerce.entity.ChatRoom;
 import com.commerce.commerce.entity.Mayorista;
 import com.commerce.commerce.exception.*;
 import com.commerce.commerce.repository.AppUserRepository;
-import com.commerce.commerce.repository.MayoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +65,9 @@ public class ChatRoomController {
             return new ResponseEntity<String>("Escriba un mensaje", HttpStatus.BAD_REQUEST);
         }
 
-        Optional<ChatRoom> chatroomFind = chatRoomRepository.findByReceiverAndEmisor(chatRoomDTO.getReceiver(), chatRoomDTO.getEmisor());        
+        Optional<ChatRoom> chatroomFind =
+                chatRoomRepository.findByReceiverAndEmisor(chatRoomDTO.getReceiver(),
+                        chatRoomDTO.getEmisor());
         ChatRoom chatRoom; 
         List<ChatMessage> newMessages = new ArrayList<>();
         

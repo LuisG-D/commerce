@@ -1,10 +1,7 @@
 package com.commerce.commerce.entity;
 
-import com.commerce.commerce.chatMessage.ChatMessage;
 import com.commerce.commerce.role.AppUserRole;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -123,21 +120,6 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-    public List<ChatMessage> getChatMessageList() {
-        return chatMessageList;
-    }
-
-    public void setChatMessageList(List<ChatMessage> chatMessageList) {
-        this.chatMessageList = chatMessageList;
-    }
-
-    public void addChatMessage(ChatMessage chatMessage) {
-        this.chatMessageList.add(chatMessage);
-    }
-
-    public void addChatMessage(List<ChatMessage> chatMessageList) {
-        this.chatMessageList.addAll(chatMessageList);
     }
 
 }

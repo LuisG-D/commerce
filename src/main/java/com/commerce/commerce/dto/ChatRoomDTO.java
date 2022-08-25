@@ -1,4 +1,4 @@
-package com.commerce.commerce.chatRoom;
+package com.commerce.commerce.dto;
 
 import lombok.Data;
 

@@ -1,7 +1,6 @@
-package com.commerce.commerce.chatMessage;
+package com.commerce.commerce.entity;
 
-import com.commerce.commerce.chatRoom.ChatRoom;
-import com.commerce.commerce.entity.AppUser;
+import com.commerce.commerce.dto.ChatMessageDTO;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -25,7 +24,6 @@ public class ChatMessage implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "emisor", nullable = false)
-
     private AppUser emisor;
 
     @Column(nullable = false)
@@ -43,7 +41,7 @@ public class ChatMessage implements Serializable {
 
     public ChatMessage(ChatRoom chatRoom,
                        String textMessage,
-                       Date creationDateTime, 
+                       Date creationDateTime,
                        AppUser emisor) {
         this.chatRoom = chatRoom;
         this.emisor = emisor;

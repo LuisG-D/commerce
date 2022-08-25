@@ -1,4 +1,4 @@
-package com.commerce.commerce.chatMessage;
+package com.commerce.commerce.dto;
 
 import java.util.Date;
 

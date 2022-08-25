@@ -1,8 +1,11 @@
-package com.commerce.commerce.chatMessage;
+package com.commerce.commerce.controller;
 
 
-import com.commerce.commerce.chatRoom.ChatRoom;
-import com.commerce.commerce.chatRoom.ChatRoomRepository;
+import com.commerce.commerce.dto.ChatMessageDTO;
+import com.commerce.commerce.repository.ChatMessageRepository;
+import com.commerce.commerce.entity.ChatMessage;
+import com.commerce.commerce.entity.ChatRoom;
+import com.commerce.commerce.repository.ChatRoomRepository;
 import com.commerce.commerce.entity.AppUser;
 import com.commerce.commerce.exception.*;
 import com.commerce.commerce.repository.AppUserRepository;
@@ -12,21 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class ChatMessageController {
+public class ChatMessageController  {
     @Autowired
     private ChatMessageRepository chatMessageRepository;
     @Autowired
     private ChatRoomRepository chatRoomRepository;
     @Autowired
     private AppUserRepository userRepository;
+
+    private ChatRoom chatRoom;
 
     private final Logger log = LoggerFactory.getLogger(ChatMessageController.class);
 
@@ -59,7 +61,8 @@ public class ChatMessageController {
     }
 
     @PostMapping(value = "/chatmessages")
-    public List<ChatMessageDTO> postNewMessage(@RequestBody List<ChatMessageDTO> chatMessageListDTO) {
+    public List<ChatMessageDTO> postNewMessage(@RequestBody
+                                                   List<ChatMessageDTO> chatMessageListDTO) {
         List<ChatMessage> newMessages = new ArrayList<>();
 
         for (ChatMessageDTO chatMessageDTO : chatMessageListDTO) {
@@ -97,13 +100,22 @@ public class ChatMessageController {
             throw new MessagesInChatIdException(roomId);
         }
 
-        ZonedDateTime zonedDateTime = ZonedDateTime.now().minusMinutes(5);
+        return chatMessageRepository.findAllByChatRoomId(roomId)
+               .parallelStream().map(ChatMessage::createDTO).collect(Collectors.toList());
+
+    }
+    @GetMapping("/chatmessages/last/{roomId}")
+    public List<ChatMessageDTO> getLastMessage(@PathVariable long roomId) {
+        List<ChatMessage> message = chatMessageRepository.findAllByChatRoomId(roomId);
+        if(message.isEmpty()) {
+            throw new MessagesInChatIdException(roomId);
+        }
+        ZonedDateTime zonedDateTime =  ZonedDateTime.now().minusMinutes(5);
         Date date = Date.from(zonedDateTime.toInstant());
 
-        return chatMessageRepository.findAllByChatRoomId(roomId)
+        return chatMessageRepository.findAllByChatRoomIdAndCreationDateTimeAfter(roomId, date)
                 .parallelStream().map(ChatMessage::createDTO)
                 .collect(Collectors.toList());
-
 
     }
 }
