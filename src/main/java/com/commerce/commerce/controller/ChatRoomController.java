@@ -117,4 +117,13 @@ public class ChatRoomController {
         }
         return chatRoomRepository.findById(id);
     }
+    @RequestMapping("/chatrooms/list/{emisor}")
+    public List<ChatRoom> getRoomById(@PathVariable String emisor){
+        List<ChatRoom> room = chatRoomRepository.findByEmisor(emisor);
+
+        if(room.isEmpty()){
+            throw new ChatroomsNotExistException("");
+        }
+        return room;
+    }
 }
