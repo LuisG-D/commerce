@@ -106,10 +106,14 @@ public class ChatMessageController  {
         } else if (user.isEmpty()) {
             log.warn("USER NOT FOUND");
             throw new UsernameNotFoundException("user");
-        } else
+        }else if(chatMessageListDTO.getTextMessage() == null || chatMessageListDTO.getTextMessage().isEmpty()){
+            log.warn("MESSAGE NOT FOUND");
+            throw new UsernameNotFoundException("mensaje");
+        }
+        else
             newMessage.setChatRoom(room.get());
-        newMessage.setEmisor(user.get());
-        newMessage.setTextMessage(chatMessageListDTO.getTextMessage());
+            newMessage.setEmisor(user.get());
+             newMessage.setTextMessage(chatMessageListDTO.getTextMessage());
 
 
 
