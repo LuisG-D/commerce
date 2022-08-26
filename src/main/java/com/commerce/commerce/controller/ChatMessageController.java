@@ -60,7 +60,10 @@ public class ChatMessageController  {
         return chatMessageRepository.findById(id).map(ChatMessage::createDTO);
     }
 
-    @PostMapping(value = "/chatmessages")
+
+
+
+    /*@PostMapping(value = "/chatmessages")
     public List<ChatMessageDTO> postNewMessage(@RequestBody
                                                    List<ChatMessageDTO> chatMessageListDTO) {
         List<ChatMessage> newMessages = new ArrayList<>();
@@ -90,8 +93,29 @@ public class ChatMessageController  {
                 .map(ChatMessage::createDTO)
                 .collect(Collectors.toList())
                 ;
-    }
+    }*/
+    @PostMapping(value = "/chatmessages")
+    public ChatMessageDTO postNewMessage(@RequestBody ChatMessageDTO chatMessageListDTO) {
 
+        ChatMessage newMessage = new ChatMessage();
+        Optional<ChatRoom> room = chatRoomRepository.findById(chatMessageListDTO.getChatRoomId());
+        Optional<AppUser> user = userRepository.findByUsername(chatMessageListDTO.getEmisor());
+        if (room.isEmpty()) {
+            log.warn("ROOM NOT FOUND");
+            throw new UsernameNotFoundException("room");
+        } else if (user.isEmpty()) {
+            log.warn("USER NOT FOUND");
+            throw new UsernameNotFoundException("user");
+        } else
+            newMessage.setChatRoom(room.get());
+        newMessage.setEmisor(user.get());
+        newMessage.setTextMessage(chatMessageListDTO.getTextMessage());
+
+
+
+        return chatMessageRepository
+                .save(newMessage).createDTO();
+    }
 
     @GetMapping("/chatrooms/{roomId}/chatmessages")
     public List<ChatMessageDTO> findAllByChatRoomId(@PathVariable long roomId) {
