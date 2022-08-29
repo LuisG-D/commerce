@@ -54,7 +54,7 @@ public class RegistrationMayoristaService {
                 )
         );
         //CAMBIAR EL LINK POR EL DOMINIO
-        String link = "http://localhost:8080/api/auth/signup/confirm?token=" + token;
+        String link = "https://commerceagri.herokuapp.com/api/auth/signup/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
                 buildEmail(request.getUsername(), link));
