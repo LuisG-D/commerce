@@ -2,6 +2,7 @@ package com.commerce.commerce.controller;
 
 import com.commerce.commerce.dto.ChatRoomDTO;
 import com.commerce.commerce.repository.ChatRoomRepository;
+import com.commerce.commerce.role.AppUserRole;
 import com.commerce.commerce.entity.ChatMessage;
 import com.commerce.commerce.repository.ChatMessageRepository;
 import com.commerce.commerce.entity.AppUser;
@@ -12,6 +13,8 @@ import com.commerce.commerce.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -117,13 +120,24 @@ public class ChatRoomController {
         }
         return chatRoomRepository.findById(id);
     }
-    @RequestMapping("/chatrooms/list/{emisor}")
-    public List<ChatRoom> getRoomById(@PathVariable String emisor){
-        List<ChatRoom> room = chatRoomRepository.findByEmisor(emisor);
+    @RequestMapping("/chatrooms/list/{username}")
+    public List<ChatRoom> getRoomById(@PathVariable String username){
 
+        Optional<AppUser> userOptions = userRepository.findByUsername(username);
+        AppUser user = userOptions.get();
+        List<ChatRoom> room = new ArrayList<>();
+
+        if (user.getRole() == AppUserRole.AGRICULTOR){
+            room = chatRoomRepository.findByEmisor(username);
+
+        }else {
+            room = chatRoomRepository.findByReceiver(username);
+        }
+               
         if(room.isEmpty()){
             throw new ChatroomsNotExistException("");
         }
+        
         return room;
     }
 }
