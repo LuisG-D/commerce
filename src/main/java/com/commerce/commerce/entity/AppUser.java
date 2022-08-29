@@ -79,6 +79,10 @@ public class AppUser implements UserDetails {
 
     }
 
+    @JsonIgnore
+    public AppUserRole getRole() {
+        return this.appUserRole;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
